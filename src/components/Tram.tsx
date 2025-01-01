@@ -4,7 +4,11 @@ import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { useMap } from "react-three-map";
 import { useTramStore } from "../store";
-import { canvasToLonLatCoords, lonLatToCanvasCoords } from "../lib/utils";
+import {
+  canvasToLonLatCoords,
+  getShortestRotationAngle,
+  lonLatToCanvasCoords,
+} from "../lib/utils";
 import { CanvasCoordinatesType } from "../lib/definitions";
 import TramModel from "./TramModel";
 
@@ -37,7 +41,7 @@ const Tram = () => {
 
   const calculateLookAtAngle = () => {
     if (!ref.current) {
-      return;
+      return 0;
     }
 
     const currentPosition = lonLatToCanvasCoords(currentCoords);
@@ -48,25 +52,20 @@ const Tram = () => {
       targetPosition.z - currentPosition.z
     );
 
-    const angleDeg = THREE.MathUtils.radToDeg(angleRad);
+    // Normalize the angle to be between -π and π
+    const normalizedAngleRad = ((angleRad + Math.PI) % (2 * Math.PI)) - Math.PI;
+    console.log("Normalized Angle Radians: ", normalizedAngleRad);
 
-    console.log(
-      "Current Angle: ",
-      THREE.MathUtils.radToDeg(currentRotationAngle)
-    );
-    console.log("Target Angle: ", angleDeg);
+    const normalizedAngleDeg = THREE.MathUtils.radToDeg(normalizedAngleRad);
+    console.log("Normalized Angle Degrees: ", normalizedAngleDeg);
 
-    if (
-      angleDeg - currentRotationAngle >
-      360 - Math.abs(angleDeg) - Math.abs(currentRotationAngle)
-    ) {
-      setCurrentRotationAngle(360 - angleDeg);
-      return THREE.MathUtils.degToRad(360 - angleDeg);
-    } else {
-      setCurrentRotationAngle(angleDeg);
-      return angleRad;
-    }
+    console.log("Current Angle: ", currentRotationAngle);
+
+    setCurrentRotationAngle(normalizedAngleDeg);
+    return getShortestRotationAngle(currentRotationAngle, normalizedAngleDeg);
   };
+
+  console.log(currentRotationAngle);
 
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
@@ -80,7 +79,10 @@ const Tram = () => {
     }
 
     tl.current
-      .to(ref.current.rotation, { duration: 0.1, y: calculateLookAtAngle() })
+      .to(ref.current.rotation, {
+        duration: 0.1,
+        y: THREE.MathUtils.degToRad(calculateLookAtAngle()),
+      })
       .to(
         ref.current.position,
         {

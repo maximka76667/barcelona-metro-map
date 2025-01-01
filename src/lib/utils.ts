@@ -47,3 +47,16 @@ export function canvasToLonLatCoords(
   const lat = (canvasCoords.z / -111) * 0.01 + initialCoords.lat;
   return { lon, lat };
 }
+
+export function getShortestRotationAngle(
+  currentAngle: number,
+  targetAngle: number
+): number {
+  let delta = (targetAngle - currentAngle) % 360;
+
+  // Adjust delta to the shortest path
+  if (delta > 180) delta -= 360;
+  if (delta < -180) delta += 360;
+
+  return currentAngle + delta;
+}
