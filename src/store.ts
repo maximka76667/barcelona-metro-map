@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { CoordinatesType } from "./lib/definitions";
+import { CoordinatesType, Line } from "./lib/definitions";
 
 interface TramStore {
   currentCoords: CoordinatesType;
@@ -17,4 +17,14 @@ export const useTramStore = create<TramStore>((set) => ({
   setTargetCoords: (targetCoords) => set({ targetCoords }),
   currentRotationAngle: 0,
   setCurrentRotationAngle: (angle) => set({ currentRotationAngle: angle }),
+}));
+
+interface MetroLinesStore {
+  lines: Line[];
+  setLines: (lines: Line[]) => void;
+}
+
+export const useMetroLinesStore = create<MetroLinesStore>((set) => ({
+  lines: [],
+  setLines: (lines) => set({ lines }),
 }));

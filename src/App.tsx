@@ -6,15 +6,21 @@ import Scene from "./components/Scene";
 import { initialCoords } from "./lib/consts";
 import { useQuery } from "@apollo/client";
 import { GET_STATIONS } from "./lib/queries";
+import { useEffect } from "react";
+import { useMetroLinesStore } from "./store";
 
 function App() {
   const { lon: initialLon, lat: initialLat } = initialCoords;
-  const { loading, error, data } = useQuery(GET_STATIONS);
+  const { data } = useQuery(GET_STATIONS);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  const { setLines } = useMetroLinesStore();
 
-  console.log(data);
+  useEffect(() => {
+    if (data) {
+      console.log(data.metroLines.edges);
+      setLines(data.metroLines.edges);
+    }
+  }, [data]);
 
   return (
     <div
