@@ -1,7 +1,7 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://barcelona-urban-mobility-graphql-api.netlify.app/graphql",
+  link: new HttpLink({ uri: "/api" }),
   cache: new InMemoryCache(),
 });
 
