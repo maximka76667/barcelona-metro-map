@@ -1,5 +1,10 @@
 import { initialCoords } from "./consts";
-import { CanvasCoordinatesType, CoordinatesType } from "./definitions";
+import {
+  CanvasCoordinatesType,
+  CoordinatesType,
+  StationType,
+  StationTypeNode,
+} from "./definitions";
 
 export function haversine(
   lat1: number,
@@ -32,11 +37,11 @@ export function haversine(
 }
 
 export function lonLatToCanvasCoords(
-  lonLatCoords: CoordinatesType
+  lonLatCoords: CoordinatesType,
+  center: CoordinatesType = initialCoords
 ): CanvasCoordinatesType {
-  const x = ((lonLatCoords.lon - initialCoords.lon) / 0.01) * 83;
-  const z = ((lonLatCoords.lat - initialCoords.lat) / 0.01) * -111;
-  console.log(x);
+  const x = ((lonLatCoords.lon - center.lon) / 0.01) * 83;
+  const z = ((lonLatCoords.lat - center.lat) / 0.01) * -111;
   return { x, z };
 }
 
@@ -59,4 +64,83 @@ export function getShortestRotationAngle(
   if (delta < -180) delta += 360;
 
   return currentAngle + delta;
+}
+
+export function calculateDistance(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number
+) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+export function getRouteOfClosestPoints(
+  arrayOfStations: StationType[],
+  initialStation: StationTypeNode
+): StationTypeNode[] {
+  console.log("Initial station: ", initialStation);
+
+  // Array of stations without initial station
+  let unsortedStations = arrayOfStations.filter(
+    (station) => station.node.id !== initialStation.id
+  );
+
+  console.log("Unsorted stations length: ", unsortedStations.length);
+
+  // Sorted route
+  const sortedStations = [initialStation];
+
+  const initialUnsortedLength = unsortedStations.length;
+
+  for (let i = 0; i < initialUnsortedLength - 1; i++) {
+    console.log("Unsorted length in for: ", unsortedStations.length);
+    // Last visited station
+    const lastStation = sortedStations[sortedStations.length - 1];
+
+    // Find the closest station to the last station in the result station from unsorted stations
+    // By passing distance and station through reduce
+    const closestStation = unsortedStations.reduce<{
+      distance: number;
+      station: StationType;
+    }>(
+      (prev, station) => {
+        const { coordinates } = station.node;
+        const newShortestDistance = calculateDistance(
+          coordinates.latitude,
+          coordinates.longitude,
+          lastStation.coordinates.latitude,
+          lastStation.coordinates.longitude
+        );
+        if (newShortestDistance < prev.distance && newShortestDistance > 0) {
+          return { distance: newShortestDistance, station };
+        }
+        return { distance: prev.distance, station: prev.station };
+      },
+      { distance: Infinity, station: { node: lastStation } }
+    ).station;
+
+    // Add closest station to final route
+    sortedStations.push(closestStation.node);
+
+    // Delete current closest station from unsorted list
+    unsortedStations = unsortedStations.filter(
+      (station) => station.node.id !== closestStation.node.id
+    );
+
+    console.log(
+      "Step ",
+      i,
+      " sorted: ",
+      sortedStations,
+      "unsorted: ",
+      unsortedStations
+    );
+  }
+
+  sortedStations.push(unsortedStations[0].node);
+
+  return sortedStations;
 }

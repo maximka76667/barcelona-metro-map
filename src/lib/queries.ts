@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GET_STATIONS = gql`
+export const GET_LINES = gql`
   query {
     metroLines {
       edges {
@@ -10,9 +10,19 @@ export const GET_STATIONS = gql`
           color
           originStation {
             id
+            name
+            coordinates {
+              latitude
+              longitude
+            }
           }
           endingStation {
             id
+            name
+            coordinates {
+              latitude
+              longitude
+            }
           }
           stations {
             edges {

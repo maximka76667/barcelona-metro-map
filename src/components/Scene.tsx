@@ -1,6 +1,6 @@
 import RotatingBox from "./RotatingBox";
 import Tram from "./Tram";
-import LineStations from "./Stations";
+import LineStations from "./LineStations";
 import { useMetroLinesStore } from "../store";
 
 const Scene = () => {
@@ -11,12 +11,7 @@ const Scene = () => {
       <RotatingBox color={"#f00"} />
       <Tram />
       {lines.map((line) => {
-        return (
-          <LineStations
-            color={line.node.color}
-            stations={line.node.stations.edges}
-          />
-        );
+        return <LineStations node={line.node} />;
       })}
     </>
   );
