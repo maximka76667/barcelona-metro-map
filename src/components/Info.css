@@ -5,20 +5,20 @@
   text-align: center;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #fff;
+  background-color: #111;
   z-index: 5;
   padding: 20px 36px;
   border-radius: 16px;
   display: flex;
   gap: 40px;
   box-sizing: border-box;
-  border: 4px solid black;
   justify-content: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .info__block {
   width: 50%;
+  color: #fff;
 }
 
 .info__header {
@@ -33,5 +33,5 @@
 }
 
 .info__field-name {
-  color: #868686;
+  color: #797979;
 }
