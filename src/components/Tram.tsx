@@ -1,8 +1,7 @@
 import * as THREE from "three";
-import { useLayoutEffect, useRef } from "react";
+import { memo, useLayoutEffect, useRef } from "react";
 
 import gsap from "gsap";
-import { useMap } from "react-three-map";
 import { useTramStore } from "../store";
 import {
   canvasToLonLatCoords,
@@ -20,8 +19,6 @@ const Tram = () => {
     currentRotationAngle,
     setCurrentRotationAngle,
   } = useTramStore();
-  const map = useMap();
-
   const ref = useRef<THREE.Group>(null);
   const tl = useRef<GSAPTimeline | null>(null);
 
@@ -32,7 +29,7 @@ const Tram = () => {
         z: ref.current?.position.z,
       };
 
-      // Convert current position canvas coordinates
+      // Convert current position (canvas coordinates)
       // to longitud latitude type coordinates
       // and store into global state
       setCurrentCoords(canvasToLonLatCoords(currentPosition));
@@ -65,8 +62,6 @@ const Tram = () => {
     return getShortestRotationAngle(currentRotationAngle, normalizedAngleDeg);
   };
 
-  console.log(currentRotationAngle);
-
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
 
@@ -78,10 +73,12 @@ const Tram = () => {
       return;
     }
 
+    const rotationAngle = THREE.MathUtils.degToRad(calculateLookAtAngle());
+
     tl.current
       .to(ref.current.rotation, {
         duration: 0.1,
-        y: THREE.MathUtils.degToRad(calculateLookAtAngle()),
+        y: rotationAngle,
       })
       .to(
         ref.current.position,
@@ -102,15 +99,12 @@ const Tram = () => {
         0
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, targetCoords]);
-
-  // console.log("Current position: ", currentCoords);
+  }, [targetCoords]);
 
   return (
     <object3D
       onClick={(e) => {
         e.stopPropagation();
-        alert("tram");
       }}
       scale={10}
     >
@@ -121,4 +115,4 @@ const Tram = () => {
   );
 };
 
-export default Tram;
+export default memo(Tram);

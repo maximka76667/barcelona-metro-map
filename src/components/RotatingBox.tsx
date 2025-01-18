@@ -9,7 +9,12 @@ interface RotatingBoxProps {
 
 const RotatingBox = ({ color }: RotatingBoxProps) => {
   const meshRef = useRef<Mesh>(null);
-  const { setTargetCoords } = useTramStore();
+  const { setTargetCoords, setCurrentStation } = useTramStore();
+
+  const handleRotatingBoxClick = () => {
+    setTargetCoords({ lon: 2.154007, lat: 41.390205 });
+    setCurrentStation(null);
+  };
 
   useFrame(() => {
     if (meshRef.current) {
@@ -20,11 +25,7 @@ const RotatingBox = ({ color }: RotatingBoxProps) => {
 
   return (
     <object3D scale={20}>
-      <mesh
-        position={[0, 5, 0]}
-        ref={meshRef}
-        onClick={() => setTargetCoords({ lon: 2.154007, lat: 41.390205 })}
-      >
+      <mesh position={[0, 5, 0]} ref={meshRef} onClick={handleRotatingBoxClick}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color={color} />
       </mesh>

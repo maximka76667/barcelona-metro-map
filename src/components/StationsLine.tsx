@@ -2,7 +2,7 @@ import { Line } from "@react-three/drei";
 import { StationTypeNode } from "../lib/definitions";
 import { lonLatToCanvasCoords } from "../lib/utils";
 import tinycolor from "tinycolor2";
-import React from "react";
+import { memo } from "react";
 
 interface StationsLineProps {
   index: number;
@@ -15,12 +15,6 @@ const StationsLine = ({ index, route, color }: StationsLineProps) => {
   const currentStation = route[index];
 
   const nextRouteStation = route[index + 1];
-  console.log(
-    "Route Station: ",
-    index,
-    nextRouteStation.id,
-    nextRouteStation.name
-  );
 
   // Convert next station coords to { lon, lat } type
   const nextRouteStationCoords = {
@@ -48,4 +42,4 @@ const StationsLine = ({ index, route, color }: StationsLineProps) => {
   );
 };
 
-export default React.memo(StationsLine);
+export default memo(StationsLine);

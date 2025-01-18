@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { initialCoords } from "../lib/consts";
 import { GET_LINES } from "../lib/queries";
 import { useMetroLinesStore } from "../store";
-import React, { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { Map } from "react-map-gl/maplibre";
 import { Canvas } from "react-three-map";
 import Scene from "./Scene";
@@ -19,7 +19,7 @@ const MapComponent = () => {
       console.log(data.metroLines.edges);
       setLines(data.metroLines.edges);
     }
-  }, [loading]);
+  }, [data, loading, setLines]);
 
   return error ? (
     <p>Error on fetching metro lines</p>
@@ -43,4 +43,4 @@ const MapComponent = () => {
   );
 };
 
-export default React.memo(MapComponent);
+export default memo(MapComponent);

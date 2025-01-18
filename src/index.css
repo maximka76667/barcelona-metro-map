@@ -20,3 +20,17 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+.invisible {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.transition_3 {
+  transition: all 0.3s;
+}
+
+.visible {
+  opacity: 1;
+  visibility: visible;
+}

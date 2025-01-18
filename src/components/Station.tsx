@@ -1,8 +1,8 @@
 import { StationTypeNode } from "../lib/definitions";
 import { Coordinates } from "react-three-map";
 import StationsLine from "./StationsLine";
-import React from "react";
 import StationCone from "./StationCone";
+import { memo } from "react";
 
 interface StationProps {
   color: string;
@@ -36,4 +36,4 @@ const Station = ({
   );
 };
 
-export default React.memo(Station);
+export default memo(Station);

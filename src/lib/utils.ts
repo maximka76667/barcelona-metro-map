@@ -81,14 +81,10 @@ export function getRouteOfClosestPoints(
   arrayOfStations: StationType[],
   initialStation: StationTypeNode
 ): StationTypeNode[] {
-  console.log("Initial station: ", initialStation);
-
   // Array of stations without initial station
   let unsortedStations = arrayOfStations.filter(
     (station) => station.node.id !== initialStation.id
   );
-
-  console.log("Unsorted stations length: ", unsortedStations.length);
 
   // Sorted route
   const sortedStations = [initialStation];
@@ -96,7 +92,6 @@ export function getRouteOfClosestPoints(
   const initialUnsortedLength = unsortedStations.length;
 
   for (let i = 0; i < initialUnsortedLength - 1; i++) {
-    console.log("Unsorted length in for: ", unsortedStations.length);
     // Last visited station
     const lastStation = sortedStations[sortedStations.length - 1];
 
@@ -128,15 +123,6 @@ export function getRouteOfClosestPoints(
     // Delete current closest station from unsorted list
     unsortedStations = unsortedStations.filter(
       (station) => station.node.id !== closestStation.node.id
-    );
-
-    console.log(
-      "Step ",
-      i,
-      " sorted: ",
-      sortedStations,
-      "unsorted: ",
-      unsortedStations
     );
   }
 

@@ -2,6 +2,7 @@ import "./App.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 import MapComponent from "./components/MapComponent";
 import { Suspense } from "react";
+import Info from "./components/Info";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         position: "relative",
       }}
     >
+      <Info />
       <Suspense fallback="<p>fetching stations...</p>">
         <MapComponent />
       </Suspense>

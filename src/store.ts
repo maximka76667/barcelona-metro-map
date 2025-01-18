@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { CoordinatesType, LineType } from "./lib/definitions";
+import { CoordinatesType, LineType, StationTypeNode } from "./lib/definitions";
 
 interface TramStore {
   currentCoords: CoordinatesType;
@@ -8,6 +8,8 @@ interface TramStore {
   setTargetCoords: (coords: CoordinatesType) => void;
   currentRotationAngle: number;
   setCurrentRotationAngle: (angle: number) => void;
+  currentStation: StationTypeNode | null;
+  setCurrentStation: (newStation: StationTypeNode | null) => void;
 }
 
 // Use global state with tram coords
@@ -18,6 +20,8 @@ export const useTramStore = create<TramStore>((set) => ({
   setTargetCoords: (targetCoords) => set({ targetCoords }),
   currentRotationAngle: 0,
   setCurrentRotationAngle: (angle) => set({ currentRotationAngle: angle }),
+  currentStation: null,
+  setCurrentStation: (currentStation) => set({ currentStation }),
 }));
 
 interface MetroLinesStore {

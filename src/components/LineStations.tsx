@@ -1,6 +1,7 @@
 import { LineType } from "../lib/definitions";
 import Station from "./Station";
 import { getRouteOfClosestPoints } from "../lib/utils";
+import { memo } from "react";
 
 type LineStationsProps = LineType;
 
@@ -9,16 +10,13 @@ const LineStations = ({
 }: LineStationsProps) => {
   // if (color != "FB712B") return;
 
-  console.log("Stations: ", stations.edges);
-  console.log("Origin Station: ", originStation);
   const route = getRouteOfClosestPoints(stations.edges, originStation);
-
-  console.log("Route: ", route);
 
   return (
     <>
-      {route.map(({ coordinates: { latitude, longitude } }, index) => (
+      {route.map(({ id, coordinates: { latitude, longitude } }, index) => (
         <Station
+          key={id}
           color={color}
           latitude={latitude}
           longitude={longitude}
@@ -31,4 +29,4 @@ const LineStations = ({
   );
 };
 
-export default LineStations;
+export default memo(LineStations);
