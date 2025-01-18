@@ -21,8 +21,22 @@ const MapComponent = () => {
     }
   }, [data, loading, setLines]);
 
-  return error ? (
-    <p>Error on fetching metro lines</p>
+  return loading || error ? (
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {loading ? (
+        <p>Fetching stations info...</p>
+      ) : (
+        <p>Error on fetching metro lines</p>
+      )}
+    </div>
   ) : (
     <Map
       antialias

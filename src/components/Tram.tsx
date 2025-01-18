@@ -77,7 +77,7 @@ const Tram = () => {
 
     tl.current
       .to(ref.current.rotation, {
-        duration: 0.1,
+        duration: 0,
         y: rotationAngle,
       })
       .to(
