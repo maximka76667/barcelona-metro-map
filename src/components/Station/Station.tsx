@@ -1,7 +1,7 @@
-import { StationTypeNode } from "../lib/definitions";
+import { StationTypeNode } from "../../lib/definitions";
 import { Coordinates } from "react-three-map";
-import StationsLine from "./StationsLine";
-import StationCone from "./StationCone";
+import StationsLine from "../StationsLine/StationsLine";
+import StationCone from "../StationCone/StationCone";
 import { memo } from "react";
 
 interface StationProps {

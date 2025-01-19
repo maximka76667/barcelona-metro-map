@@ -1,8 +1,8 @@
 import "./App.css";
 import "maplibre-gl/dist/maplibre-gl.css";
-import MapComponent from "./components/MapComponent";
+import MapComponent from "./components/MapComponent/MapComponent";
 import { Suspense } from "react";
-import Info from "./components/Info";
+import Info from "./components/Info/Info";
 
 function App() {
   return (

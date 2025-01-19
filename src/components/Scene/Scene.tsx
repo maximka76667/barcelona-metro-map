@@ -1,7 +1,7 @@
-import RotatingBox from "./RotatingBox";
-import Tram from "./Tram";
-import LineStations from "./LineStations";
-import { useMetroLinesStore } from "../store";
+import RotatingBox from "../RotatingBox/RotatingBox";
+import Tram from "../Tram/Tram";
+import LineStations from "../LineStations/LineStations";
+import { useMetroLinesStore } from "../../store";
 import { memo } from "react";
 
 const Scene = () => {

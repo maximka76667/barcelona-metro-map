@@ -2,14 +2,14 @@ import * as THREE from "three";
 import { memo, useLayoutEffect, useRef } from "react";
 
 import gsap from "gsap";
-import { useTramStore } from "../store";
+import { useTramStore } from "../../store";
 import {
   canvasToLonLatCoords,
   getShortestRotationAngle,
   lonLatToCanvasCoords,
-} from "../lib/utils";
-import { CanvasCoordinatesType } from "../lib/definitions";
-import TramModel from "./TramModel";
+} from "../../lib/utils";
+import { CanvasCoordinatesType } from "../../lib/definitions";
+import TramModel from "../TramModel/TramModel";
 
 const Tram = () => {
   const {

@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Mesh } from "three";
-import { useTramStore } from "../store";
+import { useTramStore } from "../../store";
 
 interface RotatingBoxProps {
   color: string;

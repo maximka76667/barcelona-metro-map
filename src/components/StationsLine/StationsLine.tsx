@@ -1,6 +1,6 @@
 import { Line } from "@react-three/drei";
-import { StationTypeNode } from "../lib/definitions";
-import { lonLatToCanvasCoords } from "../lib/utils";
+import { StationTypeNode } from "../../lib/definitions";
+import { lonLatToCanvasCoords } from "../../lib/utils";
 import tinycolor from "tinycolor2";
 import { memo } from "react";
 

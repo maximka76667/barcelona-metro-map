@@ -1,12 +1,12 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useQuery } from "@apollo/client";
-import { initialCoords } from "../lib/consts";
-import { GET_LINES } from "../lib/queries";
-import { useMetroLinesStore } from "../store";
+import { initialCoords } from "../../lib/consts";
+import { GET_LINES } from "../../lib/queries";
+import { useMetroLinesStore } from "../../store";
 import { memo, useEffect } from "react";
 import { Map } from "react-map-gl/maplibre";
 import { Canvas } from "react-three-map";
-import Scene from "./Scene";
+import Scene from "../Scene/Scene";
 
 const MapComponent = () => {
   const { lon: initialLon, lat: initialLat } = initialCoords;

@@ -1,4 +1,4 @@
-import { useTramStore } from "../store";
+import { useTramStore } from "../../store";
 import "./Info.css";
 
 const Info = () => {

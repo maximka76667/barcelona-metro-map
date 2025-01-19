@@ -1,6 +1,6 @@
-import { LineType } from "../lib/definitions";
-import Station from "./Station";
-import { getRouteOfClosestPoints } from "../lib/utils";
+import { LineType } from "../../lib/definitions";
+import Station from "../Station/Station";
+import { getRouteOfClosestPoints } from "../../lib/utils";
 import { memo } from "react";
 
 type LineStationsProps = LineType;

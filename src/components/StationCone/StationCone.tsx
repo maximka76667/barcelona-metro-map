@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
 import { MathUtils } from "three";
-import { StationTypeNode } from "../lib/definitions";
-import { useTramStore } from "../store";
+import { StationTypeNode } from "../../lib/definitions";
+import { useTramStore } from "../../store";
 import { Html } from "@react-three/drei";
 import clsx from "clsx";
 import tinycolor from "tinycolor2";
