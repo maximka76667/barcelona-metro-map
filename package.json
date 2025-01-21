@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://maximka76667.github.io/learn-r3f",
+  "homepage": "https://maximka76667.github.io/barcelona-metro-map",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@react-three/test-renderer": "^8.2.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/jest": "^29.5.14",

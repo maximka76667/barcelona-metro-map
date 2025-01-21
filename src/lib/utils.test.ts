@@ -1,5 +1,6 @@
 import { calculateDistance } from "./utils"; // Update with your actual path
 
+// Calculate distance
 describe("calculateDistance function", () => {
   // 1. Basic distance test
   it("should return correct distance between (0, 0) and (3, 4)", () => {
