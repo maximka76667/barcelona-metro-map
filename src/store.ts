@@ -1,6 +1,12 @@
 import { create } from "zustand";
-import { CoordinatesType, LineType, StationTypeNode } from "./lib/definitions";
+import {
+  CoordinatesType,
+  LineType,
+  StationTypeNode,
+  StationTypeWithLines,
+} from "./lib/definitions";
 
+// Store to handle tram movement and position
 interface TramStore {
   currentCoords: CoordinatesType;
   targetCoords: CoordinatesType;
@@ -12,7 +18,6 @@ interface TramStore {
   setCurrentStation: (newStation: StationTypeNode | null) => void;
 }
 
-// Use global state with tram coords
 export const useTramStore = create<TramStore>((set) => ({
   currentCoords: { lon: 2.154007, lat: 41.390205 },
   targetCoords: { lon: 2.154007, lat: 41.390205 }, // initial coordinates
@@ -24,13 +29,34 @@ export const useTramStore = create<TramStore>((set) => ({
   setCurrentStation: (currentStation) => set({ currentStation }),
 }));
 
+// Store fetched metro lines and stations
 interface MetroLinesStore {
   lines: LineType[];
   setLines: (lines: LineType[]) => void;
+  stations: StationTypeWithLines[];
+  setStations: (stations: StationTypeWithLines[]) => void;
 }
 
-// Use global state for fetched metro lines
 export const useMetroLinesStore = create<MetroLinesStore>((set) => ({
   lines: [],
   setLines: (lines) => set({ lines }),
+  stations: [],
+  setStations: (stations) => set({ stations }),
+}));
+
+// Store for 'router' feature
+interface RouterStore {
+  originStation: StationTypeWithLines | null;
+  setOriginStation: (originStation: StationTypeWithLines | null) => void;
+  destinationStation: StationTypeWithLines | null;
+  setDestinationStation: (
+    destinationStation: StationTypeWithLines | null
+  ) => void;
+}
+
+export const useRouterStore = create<RouterStore>((set) => ({
+  originStation: null,
+  setOriginStation: (originStation) => set({ originStation }),
+  destinationStation: null,
+  setDestinationStation: (destinationStation) => set({ destinationStation }),
 }));

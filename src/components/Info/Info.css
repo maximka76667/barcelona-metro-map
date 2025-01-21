@@ -7,13 +7,29 @@
   transform: translateX(-50%);
   background-color: #111;
   z-index: 5;
-  padding: 20px 36px;
+  padding: 1.25rem;
   border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  gap: 1rem;
+}
+
+.info__top {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.info__station-input {
+  width: calc(50% - 0.5rem / 2);
+}
+
+.info__bottom {
+  width: 100%;
   display: flex;
   gap: 40px;
   box-sizing: border-box;
   justify-content: center;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .info__block {

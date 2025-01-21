@@ -5,6 +5,10 @@ export interface StationType {
   node: StationTypeNode;
 }
 
+export interface StationTypeWithLines {
+  node: StationTypeNodeWithLines;
+}
+
 export interface StationTypeNode {
   id: string;
   name: string;
@@ -13,6 +17,8 @@ export interface StationTypeNode {
     longitude: number;
   };
 }
+
+export type StationTypeNodeWithLines = StationTypeNode & { lines: string[] };
 
 export interface LineType {
   node: LineTypeNode;

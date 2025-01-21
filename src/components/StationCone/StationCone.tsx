@@ -1,7 +1,7 @@
-import { memo, useLayoutEffect, useRef, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { MathUtils } from "three";
 import { StationTypeNode } from "../../lib/definitions";
-import { useTramStore } from "../../store";
+import { useRouterStore, useTramStore } from "../../store";
 import { Html } from "@react-three/drei";
 import clsx from "clsx";
 import tinycolor from "tinycolor2";
@@ -20,7 +20,10 @@ const StationCone = ({ color, station }: StationConeProps) => {
     coordinates: { latitude: lat, longitude: lon },
   } = station;
   const { setTargetCoords, setCurrentStation } = useTramStore();
+  const { originStation, destinationStation } = useRouterStore();
+
   const [isHovered, setIsHovered] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
 
   // Cone mesh ref
   const ref = useRef<THREE.Mesh>(null);
@@ -39,11 +42,26 @@ const StationCone = ({ color, station }: StationConeProps) => {
     setIsHovered(false);
   };
 
+  useEffect(() => {
+    if (!originStation || !destinationStation) {
+      return;
+    }
+    if (
+      station.id == originStation.node.id ||
+      station.id == destinationStation.node.id
+    ) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [originStation, destinationStation]);
+
   useLayoutEffect(() => {
     if (!ref.current || !materialRef.current) {
       return;
     }
-    if (isHovered) {
+
+    if (isHovered || isSelected) {
       // When hovered animate to change Y axis position and color
       gsap.to(ref.current.position, { y: 1.8 });
       gsap.to(
@@ -55,7 +73,7 @@ const StationCone = ({ color, station }: StationConeProps) => {
       gsap.to(ref.current.position, { y: 1.5 });
       gsap.to(materialRef.current.color, new THREE.Color(`#${color}`));
     }
-  }, [isHovered, ref, color]);
+  }, [isHovered, ref, color, isSelected]);
 
   return (
     <object3D

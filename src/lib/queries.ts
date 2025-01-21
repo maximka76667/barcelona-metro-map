@@ -41,3 +41,21 @@ export const GET_LINES = gql`
     }
   }
 `;
+
+export const GET_STATIONS = gql`
+  query {
+    metroStations {
+      edges {
+        node {
+          id
+          name
+          coordinates {
+            latitude
+            longitude
+          }
+          lines
+        }
+      }
+    }
+  }
+`;
