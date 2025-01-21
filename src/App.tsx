@@ -28,7 +28,7 @@ function App() {
       console.log(data.metroLines.edges);
       setLines(data.metroLines.edges);
     }
-  }, [data]);
+  }, [data, setLines]);
 
   useEffect(() => {
     if (stationsData) {

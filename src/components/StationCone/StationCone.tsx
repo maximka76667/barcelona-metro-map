@@ -54,7 +54,7 @@ const StationCone = ({ color, station }: StationConeProps) => {
     } else {
       setIsSelected(false);
     }
-  }, [originStation, destinationStation]);
+  }, [originStation, destinationStation, station.id]);
 
   useLayoutEffect(() => {
     if (!ref.current || !materialRef.current) {

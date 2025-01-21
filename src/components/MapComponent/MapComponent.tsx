@@ -1,9 +1,6 @@
 import "maplibre-gl/dist/maplibre-gl.css";
-import { useQuery } from "@apollo/client";
 import { initialCoords } from "../../lib/consts";
-import { GET_LINES, GET_STATIONS } from "../../lib/queries";
-import { useMetroLinesStore, useRouterStore } from "../../store";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { Map } from "react-map-gl/maplibre";
 import { Canvas } from "react-three-map";
 import Scene from "../Scene/Scene";
