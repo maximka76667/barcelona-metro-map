@@ -2,8 +2,11 @@ import { initialCoords } from "./consts";
 import {
   CanvasCoordinatesType,
   CoordinatesType,
+  GraphConnection,
+  OrderedLine,
   StationType,
   StationTypeNode,
+  StationTypeWithLines,
 } from "./definitions";
 
 export function lonLatToCanvasCoords(
@@ -100,3 +103,61 @@ export function getRouteOfClosestPoints(
 
   return sortedStations;
 }
+
+export const getAdjacentStations = (
+  station: StationTypeWithLines,
+  orderedLines: OrderedLine[]
+): GraphConnection[] => {
+  const stationNode = station.node;
+  const result: GraphConnection[] = [];
+
+  stationNode.lines.forEach((stationNodeLine) => {
+    const currentLine = orderedLines.find(
+      (orderedLine) => orderedLine.name == stationNodeLine
+    );
+    if (currentLine) {
+      const currentStationIndex = currentLine.stations.findIndex(
+        (currentLineStation) => currentLineStation.id == station.node.id
+      );
+
+      if (currentStationIndex !== 0) {
+        const prevStation = currentLine.stations[currentStationIndex - 1];
+        if (
+          result.findIndex(
+            (graphConnection) => graphConnection.to.id == prevStation.id
+          ) === -1
+        ) {
+          result.push({
+            to: prevStation,
+            weight: calculateDistance(
+              stationNode.coordinates.longitude,
+              stationNode.coordinates.latitude,
+              prevStation.coordinates.longitude,
+              prevStation.coordinates.latitude
+            ),
+          });
+        }
+      }
+      if (currentStationIndex !== currentLine.stations.length - 1) {
+        const nextStation = currentLine.stations[currentStationIndex + 1];
+        if (
+          result.findIndex(
+            (graphConnection) => graphConnection.to.id == nextStation.id
+          ) === -1
+        ) {
+          result.push({
+            to: nextStation,
+            weight: calculateDistance(
+              stationNode.coordinates.longitude,
+              stationNode.coordinates.latitude,
+              nextStation.coordinates.longitude,
+              nextStation.coordinates.latitude
+            ),
+          });
+        }
+      }
+    }
+  });
+
+  return result;
+};

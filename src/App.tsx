@@ -3,13 +3,14 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import MapComponent from "./components/MapComponent/MapComponent";
 import Info from "./components/Info/Info";
 import { useQuery } from "@apollo/client";
-import { StationTypeWithLines } from "./lib/definitions";
+import { LineType, StationTypeWithLines } from "./lib/definitions";
 import { useMetroLinesStore, useRouterStore } from "./store";
 import { GET_LINES, GET_STATIONS } from "./lib/queries";
 import { useEffect } from "react";
+import { getAdjacentStations, getRouteOfClosestPoints } from "./lib/utils";
 
 function App() {
-  const { setLines, setStations } = useMetroLinesStore();
+  const { setStations, orderedLines, setOrderedLines } = useMetroLinesStore();
   const { setOriginStation, setDestinationStation } = useRouterStore();
 
   const { data, loading, error } = useQuery(GET_LINES);
@@ -26,9 +27,30 @@ function App() {
     if (data) {
       // Store metro lines into global state for metro lines
       console.log(data.metroLines.edges);
-      setLines(data.metroLines.edges);
+
+      const fetchedLines: LineType[] = data.metroLines.edges;
+
+      // Converting API data into working structure
+      const orderedLines = fetchedLines.map(
+        ({
+          node: { id, name, color, originStation, endingStation, stations },
+        }) => {
+          return {
+            id,
+            name,
+            color,
+            originStation,
+            endingStation,
+            stations: getRouteOfClosestPoints(stations.edges, originStation),
+          };
+        }
+      );
+
+      setOrderedLines(orderedLines);
+
+      console.log("App routes: ", orderedLines);
     }
-  }, [data, setLines]);
+  }, [data, setOrderedLines]);
 
   useEffect(() => {
     if (stationsData) {
@@ -49,8 +71,24 @@ function App() {
           (station) => station.node.id == "6660325"
         )[0]
       );
+
+      // Convert stations data into graph to apply later Dijkstra to find shortest path
+      const graph = stationsData.metroStations.edges.map((station) => {
+        return {
+          station: station.node,
+          connectedTo: getAdjacentStations(station, orderedLines),
+        };
+      });
+
+      console.log("GRAPH: ", graph);
     }
-  }, [setDestinationStation, setOriginStation, setStations, stationsData]);
+  }, [
+    setDestinationStation,
+    setOriginStation,
+    setStations,
+    stationsData,
+    orderedLines,
+  ]);
 
   return loading || error || stationsLoading || stationsError ? (
     <div

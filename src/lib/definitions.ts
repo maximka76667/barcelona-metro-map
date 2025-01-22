@@ -25,7 +25,7 @@ export interface LineType {
 }
 
 export interface LineTypeNode {
-  id: string;
+  id: number;
   name: string;
   color: string;
   originStation: StationTypeNode;
@@ -33,4 +33,24 @@ export interface LineTypeNode {
   stations: {
     edges: StationType[];
   };
+}
+
+export interface Route {
+  id: string;
+  name: string;
+  route: StationTypeNode[];
+}
+
+export interface OrderedLine {
+  id: number;
+  name: string;
+  color: string;
+  originStation: StationTypeNode;
+  endingStation: StationTypeNode;
+  stations: StationTypeNode[];
+}
+
+export interface GraphConnection {
+  to: StationTypeNode;
+  weight: number;
 }

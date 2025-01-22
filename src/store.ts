@@ -2,6 +2,8 @@ import { create } from "zustand";
 import {
   CoordinatesType,
   LineType,
+  OrderedLine,
+  Route,
   StationTypeNode,
   StationTypeWithLines,
 } from "./lib/definitions";
@@ -35,13 +37,21 @@ interface MetroLinesStore {
   setLines: (lines: LineType[]) => void;
   stations: StationTypeWithLines[];
   setStations: (stations: StationTypeWithLines[]) => void;
+  orderedLines: OrderedLine[];
+  setOrderedLines: (orderedLines: OrderedLine[]) => void;
+  routes: Route[];
+  setRoutes: (routes: Route[]) => void;
 }
 
 export const useMetroLinesStore = create<MetroLinesStore>((set) => ({
   lines: [],
   setLines: (lines) => set({ lines }),
+  orderedLines: [],
+  setOrderedLines: (orderedLines) => set({ orderedLines }),
   stations: [],
   setStations: (stations) => set({ stations }),
+  routes: [],
+  setRoutes: (routes) => set({ routes }),
 }));
 
 // Store for 'router' feature

@@ -1,28 +1,21 @@
-import { LineType } from "../../lib/definitions";
+import { OrderedLine } from "../../lib/definitions";
 import Station from "../Station/Station";
-import { getRouteOfClosestPoints } from "../../lib/utils";
 import { memo } from "react";
 
-type LineStationsProps = LineType;
+type LineStationsProps = { line: OrderedLine };
 
-const LineStations = ({
-  node: { color, stations, originStation },
-}: LineStationsProps) => {
-  // if (color != "FB712B") return;
-
-  const route = getRouteOfClosestPoints(stations.edges, originStation);
-
+const LineStations = ({ line: { color, stations } }: LineStationsProps) => {
   return (
     <>
-      {route.map(({ id, coordinates: { latitude, longitude } }, index) => (
+      {stations.map(({ id, coordinates: { latitude, longitude } }, index) => (
         <Station
           key={id}
           color={color}
           latitude={latitude}
           longitude={longitude}
           index={index}
-          station={route[index]}
-          route={route}
+          station={stations[index]}
+          route={stations}
         />
       ))}
     </>

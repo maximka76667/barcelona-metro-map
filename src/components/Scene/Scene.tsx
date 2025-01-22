@@ -5,14 +5,14 @@ import { useMetroLinesStore } from "../../store";
 import { memo } from "react";
 
 const Scene = () => {
-  const { lines } = useMetroLinesStore();
+  const { orderedLines } = useMetroLinesStore();
   return (
     <>
       <ambientLight intensity={1} />
       <RotatingBox color={"#f00"} />
       <Tram />
-      {lines.map(({ node }) => {
-        return <LineStations key={node.id} node={node} />;
+      {orderedLines.map((line) => {
+        return <LineStations key={line.id} line={line} />;
       })}
     </>
   );
