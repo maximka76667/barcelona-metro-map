@@ -2,8 +2,7 @@ import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { MathUtils } from "three";
 import { StationTypeNode } from "../../lib/definitions";
 import { useRouterStore, useTramStore } from "../../store";
-import { Html } from "@react-three/drei";
-import clsx from "clsx";
+import { Text3D } from "@react-three/drei";
 import tinycolor from "tinycolor2";
 import * as THREE from "three";
 import gsap from "gsap";
@@ -63,14 +62,20 @@ const StationCone = ({ color, station }: StationConeProps) => {
 
     if (isHovered || isSelected) {
       // When hovered animate to change Y axis position and color
-      gsap.to(ref.current.position, { y: 1.8 });
+      gsap.to(ref.current.position, {
+        y: 1.3,
+        repeat: -1,
+        duration: 0.8,
+        yoyo: true,
+      });
       gsap.to(
         materialRef.current.color,
-        new THREE.Color(tinycolor(color).darken(10).toString())
+        new THREE.Color(tinycolor(color).spin(110).toString())
       );
     } else {
-      // When unhover cone, return to initial Y axis position and color
-      gsap.to(ref.current.position, { y: 1.5 });
+      // When unhover cone, cancel animation, return to initial Y axis position and color
+      gsap.killTweensOf(ref.current.position);
+      gsap.to(ref.current.position, { y: 1 });
       gsap.to(materialRef.current.color, new THREE.Color(`#${color}`));
     }
   }, [isHovered, ref, color, isSelected]);
@@ -85,13 +90,17 @@ const StationCone = ({ color, station }: StationConeProps) => {
       <mesh
         ref={ref}
         rotation={[MathUtils.degToRad(180), 0, 0]}
-        position={[0, 1.5, 0]}
+        position={[0, 1, 0]}
       >
-        <coneGeometry />
-        <meshBasicMaterial ref={materialRef} color={`#${color}`} />
+        <coneGeometry args={[0.7, 2]} />
+        <meshBasicMaterial
+          ref={materialRef}
+          color={`#${color}`}
+          side={THREE.BackSide}
+        />
       </mesh>
 
-      <Html
+      {/* <Html
         style={{
           padding: "4px",
           borderRadius: "8px",
@@ -102,7 +111,21 @@ const StationCone = ({ color, station }: StationConeProps) => {
         <p style={{ margin: 0, minWidth: "100px", textAlign: "center" }}>
           {name}
         </p>
-      </Html>
+      </Html> */}
+      <Text3D
+        font="/fonts/Roboto.json"
+        size={0.8}
+        position={[1, 0.1, 1]}
+        rotation={[-3.14 / 2, 0, 3.14 / 4]}
+        scale={[1, 1, 0.3]}
+      >
+        {name}
+        <meshBasicMaterial color="#000" />
+      </Text3D>
+      <mesh position={[0.3, 0, 1.1]} rotation={[-3.14 / 2, 0, 3.14 / 4]}>
+        <circleGeometry args={[0.3, 64]} />
+        <meshBasicMaterial color={`#${color}`} />
+      </mesh>
     </object3D>
   );
 };
