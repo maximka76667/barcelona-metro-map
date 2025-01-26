@@ -18,6 +18,7 @@ const Scene = () => {
         return <LineStations key={line.id} line={line} />;
       })}
       <>
+        {/* Black route line */}
         {path &&
           path.path.map((node, index) => {
             if (index !== path.path.length - 1) {
@@ -30,7 +31,7 @@ const Scene = () => {
                   <object3D scale={10} position={[0, 3, 0]}>
                     <StationsLine
                       key={node.id}
-                      color="000"
+                      color="252525"
                       index={index}
                       route={path.path}
                       width={15}

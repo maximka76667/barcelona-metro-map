@@ -79,6 +79,9 @@ function App() {
           setPath(path);
           console.log("Dijksta Path: ", path);
         }
+      } else {
+        // Display no path when there is no graph, or no origin or destination station
+        setPath({ distance: 0, path: [] });
       }
     }
   }, [

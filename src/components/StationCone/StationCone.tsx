@@ -115,14 +115,14 @@ const StationCone = ({ color, station }: StationConeProps) => {
       <Text3D
         font="/fonts/Roboto.json"
         size={0.8}
-        position={[1, 0.1, 1]}
+        position={[1, 0.5, 1]}
         rotation={[-3.14 / 2, 0, 3.14 / 4]}
         scale={[1, 1, 0.3]}
       >
         {name}
         <meshBasicMaterial color="#000" />
       </Text3D>
-      <mesh position={[0.3, 0, 1.1]} rotation={[-3.14 / 2, 0, 3.14 / 4]}>
+      <mesh position={[0.3, 0.5, 1.1]} rotation={[-3.14 / 2, 0, 3.14 / 4]}>
         <circleGeometry args={[0.3, 64]} />
         <meshBasicMaterial color={`#${color}`} />
       </mesh>
