@@ -8,9 +8,10 @@ interface StationsLineProps {
   index: number;
   route: StationTypeNode[];
   color: string;
+  width: number;
 }
 
-const StationsLine = ({ index, route, color }: StationsLineProps) => {
+const StationsLine = ({ index, route, color, width }: StationsLineProps) => {
   // Get current station, later used as center in calculating next station canvas coords
   const currentStation = route[index];
 
@@ -30,9 +31,11 @@ const StationsLine = ({ index, route, color }: StationsLineProps) => {
 
   const lineColor = tinycolor(`#${color}`).brighten(20).toString();
 
+  console.log(currentStation);
+
   return (
     <Line
-      linewidth={10}
+      linewidth={width}
       color={lineColor}
       points={[
         [0, 0, 0],

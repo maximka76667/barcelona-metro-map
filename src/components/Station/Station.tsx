@@ -28,7 +28,12 @@ const Station = ({
         <StationCone color={color} station={station} index={index} />
         <object3D scale={10}>
           {index + 1 !== route.length && (
-            <StationsLine color={color} index={index} route={route} />
+            <StationsLine
+              color={color}
+              index={index}
+              route={route}
+              width={10}
+            />
           )}
         </object3D>
       </Coordinates>

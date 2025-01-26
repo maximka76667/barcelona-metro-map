@@ -3,17 +3,29 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import MapComponent from "./components/MapComponent/MapComponent";
 import Info from "./components/Info/Info";
 import { useQuery } from "@apollo/client";
-import { LineType, StationTypeWithLines } from "./lib/definitions";
+import { Graph, LineType, StationTypeWithLines } from "./lib/definitions";
 import { useMetroLinesStore, useRouterStore } from "./store";
 import { GET_LINES, GET_STATIONS } from "./lib/queries";
-import { useEffect } from "react";
-import { getAdjacentStations, getRouteOfClosestPoints } from "./lib/utils";
+import { useEffect, useState } from "react";
+import {
+  dijkstra,
+  getAdjacentStations,
+  getRouteOfClosestPoints,
+} from "./lib/utils";
 
 function App() {
   const { setStations, orderedLines, setOrderedLines } = useMetroLinesStore();
-  const { setOriginStation, setDestinationStation } = useRouterStore();
+  const {
+    originStation,
+    setOriginStation,
+    destinationStation,
+    setDestinationStation,
+    setPath,
+  } = useRouterStore();
 
   const { data, loading, error } = useQuery(GET_LINES);
+
+  const [graph, setGraph] = useState<Graph>();
 
   const {
     data: stationsData,
@@ -54,10 +66,35 @@ function App() {
 
   useEffect(() => {
     if (stationsData) {
-      // Store stations into global state
-      console.log(stationsData.metroStations.edges);
-      setStations(stationsData.metroStations.edges);
+      if (originStation?.node.id && destinationStation?.node.id && graph) {
+        console.log("Dijkstra Origin: ", originStation.node.name);
+        console.log("Dijkstra Destination: ", destinationStation.node.name);
+        const path = dijkstra(
+          graph,
+          originStation?.node.id,
+          destinationStation?.node.id
+        );
 
+        if (path) {
+          setPath(path);
+          console.log("Dijksta Path: ", path);
+        }
+      }
+    }
+  }, [
+    setDestinationStation,
+    setOriginStation,
+    setStations,
+    stationsData,
+    orderedLines,
+    originStation,
+    destinationStation,
+    graph,
+    setPath,
+  ]);
+
+  useEffect(() => {
+    if (stationsData) {
       // Demo example: make origin = Hospital Clínic station
       setOriginStation(
         stationsData.metroStations.edges.filter(
@@ -72,8 +109,12 @@ function App() {
         )[0]
       );
 
+      // Store stations into global state
+      console.log(stationsData.metroStations.edges);
+      setStations(stationsData.metroStations.edges);
+
       // Convert stations data into graph to apply later Dijkstra to find shortest path
-      const graph = stationsData.metroStations.edges.map((station) => {
+      const graph: Graph = stationsData.metroStations.edges.map((station) => {
         return {
           station: station.node,
           connectedTo: getAdjacentStations(station, orderedLines),
@@ -81,13 +122,14 @@ function App() {
       });
 
       console.log("GRAPH: ", graph);
+      setGraph(graph);
     }
   }, [
+    orderedLines,
     setDestinationStation,
     setOriginStation,
     setStations,
     stationsData,
-    orderedLines,
   ]);
 
   return loading || error || stationsLoading || stationsError ? (

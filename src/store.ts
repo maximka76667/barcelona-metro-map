@@ -3,6 +3,7 @@ import {
   CoordinatesType,
   LineType,
   OrderedLine,
+  Path,
   Route,
   StationTypeNode,
   StationTypeWithLines,
@@ -62,6 +63,8 @@ interface RouterStore {
   setDestinationStation: (
     destinationStation: StationTypeWithLines | null
   ) => void;
+  path: Path | null;
+  setPath: (path: Path | null) => void;
 }
 
 export const useRouterStore = create<RouterStore>((set) => ({
@@ -69,4 +72,6 @@ export const useRouterStore = create<RouterStore>((set) => ({
   setOriginStation: (originStation) => set({ originStation }),
   destinationStation: null,
   setDestinationStation: (destinationStation) => set({ destinationStation }),
+  path: null,
+  setPath: (path) => set({ path }),
 }));

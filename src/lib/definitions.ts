@@ -50,7 +50,19 @@ export interface OrderedLine {
   stations: StationTypeNode[];
 }
 
+export type Graph = GraphNode[];
+
+export interface GraphNode {
+  station: StationTypeNodeWithLines;
+  connectedTo: GraphConnection[];
+}
+
 export interface GraphConnection {
   to: StationTypeNode;
   weight: number;
+}
+
+export interface Path {
+  distance: number;
+  path: StationTypeNode[];
 }
