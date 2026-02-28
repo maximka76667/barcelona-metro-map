@@ -1,58 +1,69 @@
-# Currently developing...
+# 🚇 Barcelona Metro 3D Map
 
-# React + TypeScript + Vite
+An interactive, 3D visualization of the Barcelona metro system. This project combines geographic mapping with 3D elements to provide a unique perspective on the city's transit network.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Demo](https://img.shields.io/badge/Demo-Live-green)](https://maximka76667.github.io/barcelona-metro-map)
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **3D Visualization**: Metro stations are rendered as 3D cones, and lines are represented by colored paths in 3D space, integrated with a **MapLibre GL** map.
+- **Route Planning**: Automatically calculate the shortest path between any two stations using **Dijkstra’s algorithm**.
+- **Animated Tram**: A 3D tram model that follows your planned route, moving smoothly between stations with realistic rotations.
+- **Interactive UI**: Select origin and destination stations via searchable dropdowns to explore the network.
+- **Real-time Data**: Fetches the latest metro station and line data from a dedicated GraphQL API.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Core**: [React 18](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vitejs.dev/)
+- **3D Rendering**: [React Three Fiber](https://docs.pmnd.rs/react-three-fiber), [Three.js](https://threejs.org/), [@react-three/drei](https://github.com/pmndrs/drei)
+- **Maps**: [MapLibre GL](https://maplibre.org/), [react-map-gl](https://visgl.github.io/react-map-gl/), [react-three-map](https://github.com/pmndrs/react-three-map)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+- **Data Fetching**: [Apollo Client](https://www.apollographql.com/docs/react/), [GraphQL](https://graphql.org/)
+- **Animations**: [GSAP (GreenSock)](https://greensock.com/)
+- **Testing**: [Jest](https://jestjs.io/)
 
-- Configure the top-level `parserOptions` property like this:
+## 🚀 Getting Started
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+### Prerequisites
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- [Node.js](https://nodejs.org/) (v16+)
+- npm or yarn
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
+### Installation
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/maximka76667/barcelona-metro-map.git
+   cd barcelona-metro-map
+   ```
 
-Difficulties
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-- Converting canvas coordinates and map coordinates and vice versa
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-- Functions to correctly rotate train
+4. Open your browser at `http://localhost:5173`.
+
+## 📜 Scripts
+
+- `npm run dev`: Starts the development server.
+- `npm run build`: Compiles TypeScript and builds for production.
+- `npm run lint`: Runs ESLint for code quality.
+- `npm test`: Runs Jest unit tests.
+- `npm run preview`: Previews the production build locally.
+
+## 📂 Project Structure
+
+- `src/components`: UI components and 3D scene elements.
+- `src/lib`: Core logic including GraphQL queries, pathfinding utilities, and types.
+- `src/store.ts`: Global state management using Zustand.
+- `src/apolloClient.ts`: Configuration for the GraphQL client.
+
+## 📄 License
+
+This project is open-source and available under the MIT License.
